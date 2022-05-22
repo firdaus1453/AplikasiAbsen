@@ -15,7 +15,6 @@ import id.firdaus1453.aplikasiabsen.model.login.LoginData;
 import id.firdaus1453.aplikasiabsen.model.login.LoginResponse;
 import id.firdaus1453.aplikasiabsen.ui.MainActivity;
 import id.firdaus1453.aplikasiabsen.databinding.ActivityLoginBinding;
-import id.firdaus1453.aplikasiabsen.utils.Constants;
 import id.firdaus1453.aplikasiabsen.utils.SessionManager;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -50,17 +49,12 @@ public class LoginActivity extends AppCompatActivity {
         // Mengambil data KEY_IS_LOGIN lalu memasukkan ke dalam variable isLogin
         boolean isLogin = mSessionManager.isLogin();
         // Mengecek apakah KEY_IS_LOGIN bernilai true
-        if (isLogin){
-            // Menyuruh view untuk melakukan perpindahan ke MainAcivity
-            isLogin();
+        if (isLogin) {
+            // Berpindah halaman apabila user sudah login
+            startActivity(new Intent(this, MainActivity.class));
+            // Menutup loginActivity
+            finish();
         }
-    }
-
-    public void isLogin() {
-        // Berpindah halaman apabila user sudah login
-        startActivity(new Intent(this, MainActivity.class));
-        // Menutup loginActivity
-        finish();
     }
 
     public void doLogin(String username, String password) {
@@ -113,13 +107,7 @@ public class LoginActivity extends AppCompatActivity {
         // Menyimpan data user ke dalam SharedPreference
         saveDataUser(this, loginData);
 
-        LoginData mLoginData = new LoginData();
-        mLoginData.setIdUser(loginData.getIdUser());
-        mLoginData.setName(loginData.getName());
-        mLoginData.setUsername(loginData.getUsername());
-        mLoginData.setLevel(loginData.getLevel());
-
-        startActivity(new Intent(this, MainActivity.class).putExtra(Constants.KEY_LOGIN, mLoginData));
+        startActivity(new Intent(this, MainActivity.class));
         finish();
     }
 
